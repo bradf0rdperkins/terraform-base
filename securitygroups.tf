@@ -42,8 +42,8 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
   dynamic "egress" {
     for_each = [80, 8443, 443, 3478, 5038, 3306]
     content {
-      from_port   = ingress.value
-      to_port     = ingress.value
+      from_port   = egress.value
+      to_port     = egress.value
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
@@ -52,8 +52,8 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
   dynamic "egress" {
     for_each = [3478, 443, 50561, 3306]
     content {
-      from_port   = ingress.value
-      to_port     = ingress.value
+      from_port   = egress.value
+      to_port     = egress.value
       protocol    = "udp"
       cidr_blocks = ["0.0.0.0/0"]
     }
