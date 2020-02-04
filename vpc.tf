@@ -54,31 +54,36 @@ resource "aws_internet_gateway" "fcc_acedirect_prod_igw" {
 }
 
 # route tables
-resource "aws_route_table" "main-public" {
-  vpc_id = aws_vpc.main.id
+resource "aws_route_table" "fcc-acedirect-prod-public-rt" {
+  vpc_id = aws_vpc.fcc_acedirect_prod_vpc.id
+
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main-gw.id
+    gateway_id = aws_internet_gateway.fcc_acedirect_prod_igw.id
+  }
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id = aws_internet_gateway.fcc_acedirect_prod_igw.id
   }
 
   tags = {
-    Name = "main-public-1"
+    Name = "fcc-acedirect-prod-public-rt"
   }
 }
 
 # route associations public
-resource "aws_route_table_association" "main-public-1-a" {
-  subnet_id      = aws_subnet.main-public-1.id
-  route_table_id = aws_route_table.main-public.id
+resource "aws_route_table_association" "fcc_acedirect_prod_db_west_2a" {
+  subnet_id      = aws_subnet.fcc_acedirect_prod_db_west_2a.id
+  route_table_id = aws_route_table.fcc-acedirect-prod-public-rt.id
 }
 
-resource "aws_route_table_association" "main-public-2-a" {
-  subnet_id      = aws_subnet.main-public-2.id
-  route_table_id = aws_route_table.main-public.id
+resource "aws_route_table_association" "fcc_acedirect_prod_db_west_2b" {
+  subnet_id      = aws_subnet.fcc_acedirect_prod_db_west_2b.id
+  route_table_id = aws_route_table.fcc-acedirect-prod-public-rt.id
 }
 
-resource "aws_route_table_association" "main-public-3-a" {
-  subnet_id      = aws_subnet.main-public-3.id
-  route_table_id = aws_route_table.main-public.id
+resource "aws_route_table_association" "fcc_acedirect_prod_public_1" {
+  subnet_id      = aws_subnet.fcc_acedirect_prod_public_1.id
+  route_table_id = aws_route_table.fcc-acedirect-prod-public-rt.id
 }
 
