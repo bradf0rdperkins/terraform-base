@@ -141,7 +141,7 @@ resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
   ingress {
       from_port   = 0
       to_port     = 0
-      protocol    = "ESP (50)"
+      protocol    = "50"
       cidr_blocks = ["209.18.122.132/32"]
       description = "iConectiv"
   }
@@ -149,7 +149,7 @@ resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
   ingress {
       from_port   = 0
       to_port     = 0
-      protocol    = "AH (51)"
+      protocol    = "51"
       cidr_blocks = ["209.18.122.132/32"]
       description = "iConectiv"
   }
