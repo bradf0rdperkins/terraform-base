@@ -49,8 +49,8 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
   }
 
   ingress {
-      from_port   = -1
-      to_port     = -1
+      from_port   = 0
+      to_port     = 0
       protocol    = "-1"
       cidr_blocks = ["156.154.0.0/16"]
   }
