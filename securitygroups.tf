@@ -117,13 +117,6 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
       protocol    = "-1"
       cidr_blocks = ["156.154.0.0/16"]
   }
-
-  egress {
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "tcp"
-      security_groups = [aws_security_group.fcc-acedirect-prod-rds-sg.id]
-  }
 }
 
 resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
@@ -226,4 +219,13 @@ resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_udp_rule" {
     protocol    = "udp"
     type = "ingress"
     source_security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+  }
+
+  resource "aws_security_group_rule" "fcc-acedirect-prod-web-sg_extra_rule" {
+    security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    type = "egress"
+    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-rds-sg.id}"
   }
