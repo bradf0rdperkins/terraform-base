@@ -40,6 +40,13 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+      from_port   = "icmp"
+      to_port     = "icmp"
+      protocol    = "icmp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
   
   #Egress
   dynamic "egress" {
