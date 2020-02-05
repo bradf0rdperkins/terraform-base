@@ -210,26 +210,20 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
   } 
 }
 
-resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_rule" {
-  name = "fcc-acedirect-prod-rds-sg-extra-rule"
-  description = "Allow RDS server traffic rule to prevent cyclic issue"
-  vpc_id = aws_vpc.fcc_acedirect_prod_vpc.id
-  tags = {
-    Name = "fcc-acedirect-prod-rds-sg-rule"
-  }
-
-  #Ingress
-  ingress {
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "tcp"
-      security_groups = [aws_security_group.fcc-acedirect-prod-web-sg.id]
-  }
-
-  ingress {
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "udp"
-      security_groups = [aws_security_group.fcc-acedirect-prod-web-sg.id]
-  }
+resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_tcp_rule" {
+    security_group_id = [aws_security_group.fcc-acedirect-prod-rds-sg.id]
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    type = "ingress"
+    source_security_group_id = [aws_security_group.fcc-acedirect-prod-web-sg.id]
 }
+
+resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_udp_rule" {
+    security_group_id = [aws_security_group.fcc-acedirect-prod-rds-sg.id]
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "udp"
+    type = "ingress"
+    source_security_group_id = [aws_security_group.fcc-acedirect-prod-web-sg.id]
+  }
