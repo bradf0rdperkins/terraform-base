@@ -171,8 +171,7 @@ resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
 
   ingress {
       from_port   = 4500
-      to_port     = 4
-      500
+      to_port     = 4500
       protocol    = "udp"
       cidr_blocks = ["209.18.122.132/32"]
       description = "iConectiv"
