@@ -117,6 +117,13 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
       protocol    = "-1"
       cidr_blocks = ["156.154.0.0/16"]
   }
+
+  egress {
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "tcp"
+      security_groups = [aws_security_group.fcc-acedirect-prod-rds-sg.id]
+  }
 }
 
 resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
@@ -138,10 +145,43 @@ resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
     }
   }
 
-  egress {
-      from_port   = 7000
-      to_port     = 65535
+  ingress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "ESP (50)"
+      cidr_blocks = ["209.18.122.132/32"]
+      description = "iConectiv"
+  }
+
+  ingress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "AH (51)"
+      cidr_blocks = ["209.18.122.132/32"]
+      description = "iConectiv"
+  }
+
+  ingress {
+      from_port   = 500
+      to_port     = 500
       protocol    = "udp"
+      cidr_blocks = ["209.18.122.132/32"]
+      description = "iConectiv"
+  }
+
+  ingress {
+      from_port   = 4500
+      to_port     = 4500
+      protocol    = "udp"
+      cidr_blocks = ["209.18.122.132/32"]
+      description = "iConectiv"
+  }
+
+  #Egress
+  egress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
       cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -169,6 +209,7 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
       security_groups = [aws_security_group.fcc-acedirect-prod-web-sg.id]
   }
 
+  #Egress
   egress {
       from_port   = 0
       to_port     = 0
