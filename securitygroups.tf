@@ -159,22 +159,14 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
       from_port   = 0
       to_port     = 65535
       protocol    = "tcp"
-<<<<<<< Updated upstream
       security_groups = [aws_security_group.fcc-acedirect-prod-web-sg.id]
-=======
-      security_groups = aws_security_group.fcc-acedirect-prod-web-sg.id
->>>>>>> Stashed changes
   }
 
   ingress {
       from_port   = 0
       to_port     = 65535
       protocol    = "udp"
-<<<<<<< Updated upstream
       security_groups = [aws_security_group.fcc-acedirect-prod-web-sg.id]
-=======
-      security_groups = aws_security_group.fcc-acedirect-prod-web-sg.id
->>>>>>> Stashed changes
   }
 
   egress {
@@ -183,7 +175,6 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
       protocol    = "-1"
       cidr_blocks = ["0.0.0.0/0"]
   }
-<<<<<<< Updated upstream
 
   egress {
       from_port   = 22
@@ -192,6 +183,3 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 }
-=======
-}
->>>>>>> Stashed changes
