@@ -29,7 +29,7 @@ variable "protocols" {
 
 #Database
 variable "DB_NAME" {
-    default = "fcc-acedirect-db"
+    default = "fccacedirectdb"
 }
 variable "DB_ALLOCATED_STORAGE" {
     default = 20
