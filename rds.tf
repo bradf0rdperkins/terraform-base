@@ -12,5 +12,5 @@ resource "aws_db_instance" "fcc-prod-rds-mysql" {
   db_subnet_group_name       = "${aws_db_subnet_group.fcc-acedirect-db-subnet-group.id}"
   auto_minor_version_upgrade = true
   port                       = "${var.DB_PORT}"
-  vpc_security_group_ids     = "${aws_security_group.fcc-acedirect-prod-rds-sg.id}"
+  vpc_security_group_ids     = ["${aws_security_group.fcc-acedirect-prod-rds-sg.id}"]
 }
