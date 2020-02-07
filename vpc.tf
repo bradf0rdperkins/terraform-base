@@ -44,6 +44,17 @@ resource "aws_subnet" "fcc_acedirect_prod_public_1" {
   }
 }
 
+#DB Subnet Group
+resource "aws_db_subnet_group" "fcc-acedirect-db-subnet-group" {
+  name       = "fcc-acedirect-db-subnet-group"
+  subnet_ids = ["${aws_subnet.fcc_acedirect_prod_db_west_2a.id}", "${aws_subnet.fcc_acedirect_prod_db_west_2b.id}"]
+
+  tags = {
+    Name = "mysql DB subnet group"
+  }
+}
+
+
 # Internet GW
 resource "aws_internet_gateway" "fcc_acedirect_prod_igw" {
   vpc_id = aws_vpc.fcc_acedirect_prod_vpc.id
