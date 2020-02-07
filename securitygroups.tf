@@ -5,118 +5,6 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
   tags = {
     Name = "fcc-acedirect-prod-web-sg"
   }
-
-  #Ingress
-  dynamic "ingress" {
-    for_each = [22, 443, 8080, 80, 8443, 5060, 3478, 5038, 8005, 3306, 8081]
-    content {
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-  
-  dynamic "ingress" {
-    for_each = [3478, 5061, 3306, 5060]
-    content {
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "udp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-
-  ingress {
-      from_port   = 10000
-      to_port     = 20000
-      protocol    = "udp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-      from_port   = 10000
-      to_port     = 20000
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-      from_port   = -1
-      to_port     = -1
-      protocol    = "icmp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["156.154.0.0/16"]
-  }
-  
-  #Egress
-  dynamic "egress" {
-    for_each = [80, 8443, 443, 3478, 5038, 3306]
-    content {
-      from_port   = egress.value
-      to_port     = egress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-  
-  dynamic "egress" {
-    for_each = [3478, 443, 50561, 3306]
-    content {
-      from_port   = egress.value
-      to_port     = egress.value
-      protocol    = "udp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-
-  egress {
-      from_port   = 10000
-      to_port     = 20000
-      protocol    = "udp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-      from_port   = 10000
-      to_port     = 20000
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-      from_port   = 7000
-      to_port     = 65535
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-      from_port   = 7000
-      to_port     = 65535
-      protocol    = "udp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-      from_port   = -1
-      to_port     = -1
-      protocol    = "icmp"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["156.154.0.0/16"]
-  }
 }
 
 resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
@@ -186,22 +74,166 @@ resource "aws_security_group" "fcc-acedirect-prod-rds-sg" {
   tags = {
     Name = "fcc-acedirect-prod-rds-sg"
   }
+}
 
-  #Ingress
-  ingress {
-      from_port   = 3306
-      to_port     = 3306
-      protocol    = "tcp"
-      cidr_blocks = ["73.14.137.136/32"]
-  }
+variable "ingress_web_ports_1" {
+  default = [22, 443, 8080, 80, 8443, 5060, 3478, 5038, 8005, 3306, 8081]
+}
+variable "ingress_web_ports_2" {
+  default = [3478, 5061, 3306, 5060]
+}
+variable "egress_web_ports_1" {
+  default = [80, 8443, 443, 3478, 5038, 3306]
+}
+variable "egress_web_ports_2" {
+  default = [3478, 443, 50561, 3306]
+}
+variable "protocols" {
+  default = ["tcp", "udp"]
+}
 
-  #Egress
-  egress {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group_rule" "ingress_web_1" {
+  count = "${length(var.ingress_web_ports_1)}"
+
+  type        = "ingress"
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = "${element(var.ingress_web_ports_1, count.index)}"
+  to_port     = "${element(var.ingress_web_ports_1, count.index)}"
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "ingress_web_2" {
+  count = "${length(var.ingress_web_ports_2)}"
+
+  type        = "ingress"
+  protocol    = "udp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = "${element(var.ingress_web_ports_2, count.index)}"
+  to_port     = "${element(var.ingress_web_ports_2, count.index)}"
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "ingress_web_3" {
+  count = "${length(var.protocols)}"
+
+  type        = "ingress"
+  protocol    = "${element(var.protocols, count.index)}"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 10000
+  to_port     = 20000
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "ingress_web_4" {
+  type        = "ingress"
+  protocol    = "icmp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = -1
+  to_port     = -1
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "ingress_web_5" {
+  type        = "ingress"
+  protocol    = "-1"
+  cidr_blocks = ["156.154.0.0/16"]
+  from_port   = 0
+  to_port     = 0
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_1" {
+  count = "${length(var.egress_web_ports_1)}"
+
+  type        = "egress"
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = "${element(var.egress_web_ports_1, count.index)}"
+  to_port     = "${element(var.egress_web_ports_1, count.index)}"
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_2" {
+  count = "${length(var.egress_web_ports_2)}"
+
+  type        = "egress"
+  protocol    = "udp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = "${element(var.egress_web_ports_2, count.index)}"
+  to_port     = "${element(var.egress_web_ports_2, count.index)}"
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_3" {
+  count = "${length(var.protocols)}"
+
+  type        = "egress"
+  protocol    = "${element(var.protocols, count.index)}"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 10000
+  to_port     = 20000
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_4" {
+  count = "${length(var.protocols)}"
+
+  type        = "egress"
+  protocol    = "${element(var.protocols, count.index)}"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 7000
+  to_port     = 65535
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_4" {
+  type        = "egress"
+  protocol    = "icmp"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = -1
+  to_port     = -1
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_web_5" {
+  type        = "egress"
+  protocol    = "-1"
+  cidr_blocks = ["156.154.0.0/16"]
+  from_port   = 0
+  to_port     = 0
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+}
+
+resource "aws_security_group_rule" "igress_rds_1" {
+  type        = "ingress"
+  protocol    = "tcp"
+  cidr_blocks = ["73.14.137.136/32"]
+  from_port   = 3306
+  to_port     = 3306
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-rds-sg.id}"
+}
+
+resource "aws_security_group_rule" "egress_rds_1" {
+  type        = "ingress"
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 0
+  to_port     = 0
+
+  security_group_id = "${aws_security_group.fcc-acedirect-prod-rds-sg.id}"
 }
 
 resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_tcp_rule" {
