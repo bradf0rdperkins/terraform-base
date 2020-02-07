@@ -10,6 +10,7 @@ variable "PATH_TO_PUBLIC_KEY" {
   default = "mykey.pub"
 }
 
+#Security Groups
 variable "ingress_web_ports_1" {
   default = [22, 443, 8080, 80, 8443, 5060, 3478, 5038, 8005, 3306, 8081]
 }
@@ -24,5 +25,22 @@ variable "egress_web_ports_2" {
 }
 variable "protocols" {
   default = ["tcp", "udp"]
+}
+
+#Database
+variable "DB_NAME" {
+    default = "fccAceDirectDB"
+}
+variable "DB_ALLOCATED_STORAGE" {
+    default = 20
+}
+variable "DB_USERNAME" {
+    default = "fccdbadmin"
+}
+variable "DB_PASS" {
+    default = "fccdbadmin!123"
+}
+variable "DB_PORT" {
+    default = 3306
 }
 
