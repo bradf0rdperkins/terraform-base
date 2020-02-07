@@ -210,7 +210,7 @@ resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_tcp_rule" {
     to_port                  = 65535
     protocol                 = "tcp"
     type                     = "ingress"
-    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.name}"
 }
 
 resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_udp_rule" {
@@ -219,7 +219,7 @@ resource "aws_security_group_rule" "fcc-acedirect-prod-rds-sg_extra_udp_rule" {
     to_port     = 65535
     protocol    = "udp"
     type = "ingress"
-    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
+    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.name}"
 }
 
 resource "aws_security_group_rule" "fcc-acedirect-prod-web-sg_extra_rule" {
@@ -228,5 +228,5 @@ resource "aws_security_group_rule" "fcc-acedirect-prod-web-sg_extra_rule" {
     to_port     = 65535
     protocol    = "tcp"
     type = "egress"
-    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-rds-sg.id}"
+    source_security_group_id = "${aws_security_group.fcc-acedirect-prod-rds-sg.name}"
 }
