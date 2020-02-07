@@ -7,6 +7,76 @@ resource "aws_security_group" "fcc-acedirect-prod-web-sg" {
   }
 }
 
+resource "aws_security_group" "fcc-acedirect-prod-swan-sg" {
+  name = "fcc-acedirect-prod-swan-sg"
+  description = "Allow web server traffic"
+  vpc_id = aws_vpc.fcc_acedirect_prod_vpc.id
+  tags = {
+    Name = "fcc-acedirect-prod-swan-sg"
+  }
+
+  #Ingress
+  ingress {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "udp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+      from_port   = 53
+      to_port     = 53
+      protocol    = "udp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "DNS"
+  }
+
+  ingress {
+      from_port   = 4500
+      to_port     = 4500
+      protocol    = "udp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+      from_port   = 500
+      to_port     = 500
+      protocol    = "udp"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+      from_port   = 50
+      to_port     = 51
+      protocol    = "udp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Strongswan"
+  }
+
+  ingress {
+      from_port   = 50
+      to_port     = 51
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Strongswan"
+  }
+
+  #Egress
+  egress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "fcc-acedirect-prod-providers-sg" {
   name = "fcc-acedirect-prod-providers-sg"
   description = "Allow traffic from specific phone providers in"
