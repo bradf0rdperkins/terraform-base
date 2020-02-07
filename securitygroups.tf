@@ -227,7 +227,7 @@ resource "aws_security_group_rule" "igress_rds_1" {
 }
 
 resource "aws_security_group_rule" "egress_rds_1" {
-  type        = "ingress"
+  type        = "egress"
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
   from_port   = 0
