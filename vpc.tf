@@ -98,3 +98,39 @@ resource "aws_route_table_association" "fcc_acedirect_prod_public_1" {
   route_table_id = aws_route_table.fcc-acedirect-prod-public-rt.id
 }
 
+#Elastic IPs
+/*resource "aws_eip" "fcc-openam-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-node-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-dvpn-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-sswan-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-asterisk-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-stun-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+
+resource "aws_eip" "fcc-proxy-eip" {
+  instance = "${aws_instance.web.id}"
+  vpc      = true
+}
+*/
