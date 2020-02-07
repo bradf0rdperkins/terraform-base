@@ -196,7 +196,7 @@ resource "aws_security_group_rule" "egress_web_4" {
   security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
 }
 
-resource "aws_security_group_rule" "egress_web_4" {
+resource "aws_security_group_rule" "egress_web_5" {
   type        = "egress"
   protocol    = "icmp"
   cidr_blocks = ["0.0.0.0/0"]
@@ -206,7 +206,7 @@ resource "aws_security_group_rule" "egress_web_4" {
   security_group_id = "${aws_security_group.fcc-acedirect-prod-web-sg.id}"
 }
 
-resource "aws_security_group_rule" "egress_web_5" {
+resource "aws_security_group_rule" "egress_web_6" {
   type        = "egress"
   protocol    = "-1"
   cidr_blocks = ["156.154.0.0/16"]
