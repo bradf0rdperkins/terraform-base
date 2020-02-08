@@ -47,7 +47,7 @@ variable "AMIS" {
   type = map(string)
   default = {
     us-west-1 = "ami-074e2d6769f445be5"
-    us-west-2 = "ami-074e2d6769f445be5"
+    us-west-2 = "ami-01ed306a12b7d1c96"
     #us-east-1 = ""
   }
 }
