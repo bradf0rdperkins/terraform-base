@@ -99,11 +99,12 @@ resource "aws_route_table_association" "fcc_acedirect_prod_public_1" {
 }
 
 #Elastic IPs
-/*resource "aws_eip" "fcc-openam-eip" {
-  instance = "${aws_instance.web.id}"
+resource "aws_eip" "fcc-openam-eip" {
+  instance = "${aws_instance.example.id}"
   vpc      = true
 }
 
+/*
 resource "aws_eip" "fcc-node-eip" {
   instance = "${aws_instance.web.id}"
   vpc      = true
