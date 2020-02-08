@@ -1,11 +1,9 @@
 variable "AWS_REGION" {
   default = "us-west-2"
 }
-
 variable "PATH_TO_PRIVATE_KEY" {
   default = "mykey"
 }
-
 variable "PATH_TO_PUBLIC_KEY" {
   default = "mykey.pub"
 }
@@ -42,5 +40,15 @@ variable "DB_PASS" {
 }
 variable "DB_PORT" {
     default = 3306
+}
+
+#Instances
+variable "AMIS" {
+  type = map(string)
+  default = {
+    us-west-1 = "ami-074e2d6769f445be5"
+    us-west-2 = "ami-074e2d6769f445be5"
+    #us-east-1 = ""
+  }
 }
 
