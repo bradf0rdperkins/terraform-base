@@ -39,4 +39,3 @@ terrafrom apply
 # Unassigned variables that prompt at runtime should be avoided
 # Ideal to use Vault or similar product that stores secure and secret variables
 ```
-* Install Packer 
