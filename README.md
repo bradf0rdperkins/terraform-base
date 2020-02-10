@@ -14,3 +14,13 @@ touch .gitignore
 vim .gitignore
 # Add the filenames to ignore on each line
 ```
+* Run terraform
+```
+terraform init
+terrafrom plan
+# Validate configuration that will be applied
+terrafrom apply
+# Add modifiable variables with the -var switch
+# Unassigned variables that prompt at runtime should be avoided
+# Ideal to use Vault or similar product that stores secure and secret variables
+```
