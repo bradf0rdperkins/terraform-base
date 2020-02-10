@@ -6,7 +6,7 @@
   * Install Terraform
   * Create local terraform environment
   * Install git and clone repository
-* Generate an SSH key
+* Generate an SSH key  
 `ssh-keygen -f mykey`
 * Create a .gitignore file and add the SSH keys to it  
 ```
