@@ -2,6 +2,10 @@ resource "aws_instance" "example" {
   ami           = var.AMIS[var.AWS_REGION]
   instance_type = "t2.micro"
 
+  tags = {
+    Name = "fcc-acedirect-prod-openam-01"
+  }
+
   # the VPC subnet
   subnet_id = aws_subnet.fcc_acedirect_prod_public_1.id
 
