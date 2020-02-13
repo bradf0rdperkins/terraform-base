@@ -1,0 +1,56 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-east-1",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "m3.medium",
+    "ssh_username": "ubuntu",
+    "ami_name": "packer-example {{timestamp}}"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "inline": [
+      "sleep 30",
+      "sudo yum update -y",
+      "sudo yum install -y epel-release",
+      "sudo yum install -y python36",
+      "sudo yum install -y python34-setuptools",
+      "sudo easy_install-3.4 pip",
+      "sudo yum install -y python34-pip",
+      "sudo pip3 --version",
+      "sudo pip3 install awscli --upgrade --user",
+      "cd ~",
+      "mkdir packer_new",
+      "cd packer_new/",
+      "sudo wget https://releases.hashicorp.com/packer/1.5.1/packer_1.5.1_linux_amd64.zip",
+      "sudo unzip packer_1.5.1_linux_amd64.zip",
+      "sudo ln -s ~/packer_new/packer /usr/bin/packer.io",
+      "echo 'export PATH=$HOME/packer_new:$HOME/.local/bin::$HOME/bin:$PATH' >> ~/.bashrc",
+      "sudo source ~/.bash_profile",
+      "sudo aws",
+      "sudo yum -y install yum-utils",
+      "sudo yum-config-manager --enable rhui-us-west-1-rhel-server-extras rhui-us-west-1-rhel-server-optional",
+      "sudo yum install -y certbot python2-certbot-nginx",
+      "sudo yum install -y --setopt=obsoletes=0 python2-certbot-dns-route53",
+      "aws configure",
+      "sudo echo '0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew' | sudo tee -a /etc/crontab > /dev/null",
+      "sudo certbot certonly --dns-route53 -d *.maxdevops.net --email bradfordlperkins@maximus.com --no-eff-email --agree-tos",
+      "certbot certificates",
+      "mkdir /home/acedirect"
+    ]
+  }]
+}
