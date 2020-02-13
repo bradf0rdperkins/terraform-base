@@ -11,6 +11,7 @@
     "source_ami": "ami-01ed306a12b7d1c96",
     "instance_type": "m3.medium",
     "ssh_username": "centos",
+    "subnet_id": "subnet-05d8d1f54c0b66e85",
     "ami_name": "packer-example {{timestamp}}"
   }],
   "provisioners": [{
