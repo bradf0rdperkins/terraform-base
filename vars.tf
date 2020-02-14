@@ -36,7 +36,7 @@ variable "DB_USERNAME" {
     default = "fccdbadmin"
 }
 variable "DB_PASS" {
-    default = "fccdbadmin!123"
+    default = ""
 }
 variable "DB_PORT" {
     default = 3306
