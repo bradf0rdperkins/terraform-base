@@ -27,13 +27,13 @@ variable "protocols" {
 
 #Database
 variable "DB_NAME" {
-    default = "fccacedirectdb"
+    default = ""
 }
 variable "DB_ALLOCATED_STORAGE" {
     default = 20
 }
 variable "DB_USERNAME" {
-    default = "fccdbadmin"
+    default = ""
 }
 variable "DB_PASS" {
     default = ""
@@ -46,8 +46,8 @@ variable "DB_PORT" {
 variable "AMIS" {
   type = map(string)
   default = {
-    us-west-1 = "ami-074e2d6769f445be5"
-    us-west-2 = "ami-01ed306a12b7d1c96"
+    us-west-1 = "ami-"
+    us-west-2 = "ami-"
     #us-east-1 = ""
   }
 }
